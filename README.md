@@ -6,7 +6,7 @@ Website ini dirancang untuk mengirim lagu dan pesan secara anonim kepada seseora
 
 TAUTAN
 Figma: https://www.figma.com/design/eb2v1e5wEzDXn83pKuJuZn/Proyek2_songtofeel?node-id=0-1&t=Pk6HeBuYOit8jvnW-1
-Repositori: 
+Repositori: https://github.com/zzhratunnsa/proyek2_pemweb.git
 Live demo (link GitHub Pages):
 
 FITUR UTAMA
