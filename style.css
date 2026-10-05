@@ -1,0 +1,100 @@
+body {
+  font-family: Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, .brand {
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.8rem 1.25rem;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--ink);
+  text-decoration: none;
+  font-style: italic;
+}
+
+nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tab {
+  font-size: 1rem;
+  padding: 0.45rem 0.9rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: var(--blue-soft);
+}
+
+.tab.active {
+  border-color: var(--blue-dark);
+  background: var(--blue-dark);
+  color: white;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 2px solid var(--ink);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 100px);
+  background: var(--ink);
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 14px;
+  transition: transform 0.3s;
+  z-index: 10;
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+}
