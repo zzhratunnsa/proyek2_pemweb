@@ -41,6 +41,55 @@
                 </article>
             </div>
         </section>
+
+        <section id="view-kirim" class="view">
+            <div id="form-wrap" class="panel">
+                <h1>Kirim lagu</h1>
+                <form id="song-form" novalidate>
+                    <div class="field">
+                        <label for="to">Penerima</label>
+                        <input id="to" name="to" type="text" maxlength="30">
+                        <small class="err" data-for="to"></small>
+                        <small class="hint">Lagu dikirim secara anonim. Nama pengirim tidak ditampilkan.</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="field">
+                            <label for="title">Judul lagu</label>
+                            <input id="title" name="title" type="text" maxlength="60">
+                            <small class="err" data-for="title"></small>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="artist">Artis</label>
+                            <input id="artist" name="artist" type="text" maxlength="40">
+                            <small class="err" data-for="artist"></small>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="mood">Suasana</label>
+                        <select id="mood" name="mood">
+                        <option value="Rindu">Rindu</option>
+                        <option value="Cinta">Cinta</option>
+                        <option value="Semangat">Semangat</option>
+                        <option value="Maaf">Maaf</option>
+                        <option value="Terima kasih">Terima kasih</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="message">
+                            Pesan <span id="counter" class="counter">0/200</span>
+                        </label>
+                        <textarea id="message" name="message" rows="4" maxlength="200"></textarea>
+                        <small class="err" data-for="message"></small>
+                    </div>
+
+                    <button class="btn" type="submit">Kirim</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer class="foot">
