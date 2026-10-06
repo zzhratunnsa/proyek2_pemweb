@@ -403,3 +403,20 @@ input.invalid, textarea.invalid {
 .toast.show {
   transform: translate(-50%, 0);
 }
+
+/* ===== 8. RESPONSIVE (MEDIA QUERIES) ===== */
+/* Tablet */
+@media (max-width: 900px) {
+  h1 { font-size: 2.6rem; }
+  .steps { grid-template-columns: 1fr 1fr; }
+}
+
+/* Ponsel */
+@media (max-width: 600px) {
+  h1 { font-size: 2.1rem; }
+  .steps, .row, .grid { grid-template-columns: 1fr; }
+  .empty { grid-column: 1 / 2; }
+  .topbar { flex-direction: column; align-items: center; gap: 0.3rem; }
+  .tab { padding: 0.4rem 0.6rem; font-size: 0.9rem; }
+  .panel { padding: 1.2rem; }
+}
