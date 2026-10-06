@@ -22,9 +22,9 @@
         <section id="view-cara" class="view active">
             <div class="hero">
                 <h1>Kirim lagu untuk seseorang</h1>
-                    <p class="lead">Punya pesan terpendam yang sulit tersampaikan?
-                        Biarkan melodi yang menyambung rasa dan menyampaikan pesanmu.</p>
-                    <button class="btn" data-nav="Kirim">Kirim lagu dan pesanmu</button>
+                <p class="lead">Punya pesan terpendam yang sulit tersampaikan?
+                    Biarkan melodi yang menyambung rasa dan menyampaikan pesanmu.</p>
+                <button class="btn" data-nav="Kirim">Kirim lagu dan pesanmu</button>
             </div>
             <div class="steps">
                 <article class="step">
@@ -52,21 +52,18 @@
                         <small class="err" data-for="to"></small>
                         <small class="hint">Lagu dikirim secara anonim. Nama pengirim tidak ditampilkan.</small>
                     </div>
-
                     <div class="row">
                         <div class="field">
                             <label for="title">Judul lagu</label>
                             <input id="title" name="title" type="text" maxlength="60">
                             <small class="err" data-for="title"></small>
-                        </div>
-                        
+                        </div> 
                         <div class="field">
                             <label for="artist">Artis</label>
                             <input id="artist" name="artist" type="text" maxlength="40">
                             <small class="err" data-for="artist"></small>
                         </div>
                     </div>
-
                     <div class="field">
                         <label for="mood">Suasana</label>
                         <select id="mood" name="mood">
@@ -77,7 +74,6 @@
                         <option value="Terima kasih">Terima kasih</option>
                         </select>
                     </div>
-
                     <div class="field">
                         <label for="message">
                             Pesan <span id="counter" class="counter">0/200</span>
@@ -85,7 +81,6 @@
                         <textarea id="message" name="message" rows="4" maxlength="200"></textarea>
                         <small class="err" data-for="message"></small>
                     </div>
-
                     <button class="btn" type="submit">Kirim</button>
                 </form>
             </div>
@@ -100,10 +95,13 @@
                     <label for="search">Ketikan nama penerima untuk menemukan pesan</label>
                     <input id="search" type="search" placeholder="Masukkan nama penerima">
                 </div>
-                <select id="sort">
-                    <option value="new">Terbaru</option>
-                    <option value="plays">Paling sering dicari</option>
-                </select>
+                <div class="field">
+                    <label for="sort">Urutkan</label>
+                    <select id="sort">
+                        <option value="new">Terbaru</option>
+                        <option value="plays">Paling sering dicari</option>
+                    </select>
+                </div>
             </div>
             <div class="grid" id="grid"></div>
         </section>
@@ -113,5 +111,7 @@
         <p>songtofeel.id</p>
     </footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
