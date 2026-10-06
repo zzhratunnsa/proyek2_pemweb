@@ -160,3 +160,157 @@ const resetForm = () => {
   }
   document.querySelector('#counter').textContent = '0/200';
 };
+
+// 5. KARTU LAGU
+// Membuat HTML sebuah kartu. Kalau withPlayer = true, kartu punya tombol play
+const buatKartu = (lagu, withPlayer) => {
+  let player = '';
+  let jumlahPutar = '';
+
+  if (withPlayer) {
+    player = `
+      <div class="player">
+        <button class="play" data-play="${lagu.id}" aria-label="Putar lagu">&#9654;</button>
+        <div class="track"><span class="fill"></span></div>
+        <span class="time">0:00 / 0:30</span>
+      </div>`;
+    jumlahPutar = `<span class="plays">${lagu.plays}x diputar</span>`;
+  }
+
+  return `
+    <article class="card" data-id="${lagu.id}">
+      <span class="mood">${aman(lagu.mood)}</span>
+      <h2>${aman(lagu.title)}</h2>
+      <p class="artist">${aman(lagu.artist)}</p>
+      <blockquote>${aman(lagu.message)}</blockquote>
+      ${player}
+      <footer>
+        <span>Untuk ${aman(lagu.to)}</span>
+        ${jumlahPutar}
+      </footer>
+    </article>`;
+};
+
+// 6. HALAMAN JELAJAHI
+// Mengambil lagu yang namanya cocok dengan kolom pencarian
+const ambilLagu = () => {
+  const hasil = [];
+  for (const lagu of songs) {
+    if (lagu.to.toLowerCase().includes(kataCari.toLowerCase())) {
+      hasil.push(lagu);
+    }
+  }
+
+  hasil.sort((a, b) => {
+    if (urutan === 'plays') {
+      return b.plays - a.plays;  // paling sering diputar di atas
+    }
+    return b.createdAt - a.createdAt; // terbaru di atas
+  });
+  return hasil.slice(0, MAKS_KARTU); // ambil 4 pertama saja
+};
+
+// Menampilkan semua kartu ke halaman
+const renderBrowse = () => {
+  stopPlayback();
+  const hasil = ambilLagu();
+  let html = '';
+
+  if (hasil.length === 0) {
+    html = '<div class="empty">Tidak ada lagu untuk nama itu. Coba nama lain atau kirim lagu baru.</div>';
+  } else {
+    for (const lagu of hasil) {
+      html += buatKartu(lagu, true);
+    }
+  }
+  document.querySelector('#grid').innerHTML = html;
+
+  // Pasang event klik pada setiap tombol play
+  document.querySelectorAll('#grid .play').forEach((tombol) => {
+    tombol.addEventListener('click', () => {
+      const id = tombol.dataset.play;
+      if (laguAktif === id) {
+        stopPlayback();
+      } else {
+        startPlayback(id);
+      }
+    });
+  });
+};
+
+document.querySelector('#search').addEventListener('input', (e) => {
+  kataCari = e.target.value.trim();
+  renderBrowse();
+});
+
+document.querySelector('#sort').addEventListener('change', (e) => {
+  urutan = e.target.value;
+  renderBrowse();
+});
+
+// 7. PEMUTAR (SIMULASI 30 DETIK, TANPA SUARA)
+const DURASI = 30;
+let laguAktif = null; // id lagu yang sedang diputar (null = tidak ada)
+let timer = null;
+let tick = 0;         // 1 tick = 0,1 detik
+
+const cariKartu = (id) => document.querySelector('#grid [data-id="' + id + '"]');
+
+// Mengubah angka detik menjadi tulisan, misalnya 7 menjadi "0:07"
+const formatWaktu = (detik) => {
+  const d = Math.floor(detik);
+  if (d < 10) {
+    return '0:0' + d;
+  }
+  return '0:' + d;
+};
+
+// Mengubah tampilan kartu
+const gambarPlayer = (id, detik, sedangPutar) => {
+  const kartu = cariKartu(id);
+  if (!kartu) {
+    return;
+  }
+  const tombol = kartu.querySelector('.play');
+
+  if (sedangPutar) {
+    kartu.classList.add('playing');
+    tombol.innerHTML = '&#10074;&#10074;'; // ikon jeda
+  } else {
+    kartu.classList.remove('playing');
+    tombol.innerHTML = '&#9654;';          // ikon play
+  }
+  kartu.querySelector('.fill').style.width = (detik / DURASI) * 100 + '%';
+  kartu.querySelector('.time').textContent = formatWaktu(detik) + ' / ' + formatWaktu(DURASI);
+};
+
+const stopPlayback = () => {
+  if (laguAktif === null) {
+    return;
+  }
+  clearInterval(timer);
+  gambarPlayer(laguAktif, 0, false);
+  laguAktif = null;
+};
+
+const startPlayback = (id) => {
+  stopPlayback(); // hentikan lagu lain dulu
+
+  const lagu = songs.find((l) => l.id === id);
+  lagu.plays = lagu.plays + 1;
+  cariKartu(id).querySelector('.plays').textContent = lagu.plays + 'x diputar';
+
+  laguAktif = id;
+  tick = 0;
+  gambarPlayer(id, 0, true);
+
+  timer = setInterval(() => {
+    tick = tick + 1;
+    const detik = tick / 10;
+    if (detik >= DURASI) {
+      stopPlayback();
+      return;
+    }
+    gambarPlayer(id, detik, true);
+  }, 100);
+};
