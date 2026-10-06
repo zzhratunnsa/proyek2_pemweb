@@ -65,3 +65,98 @@ document.querySelectorAll('[data-nav]').forEach((tombol) => {
     tampilkanHalaman(tombol.dataset.nav);
   });
 });
+
+// 4. FORM KIRIM LAGU
+const form = document.querySelector('#song-form');
+const daftarField = ['to', 'title', 'artist', 'message'];
+
+// Menampilkan atau menghapus pesan error di bawah input
+const tampilError = (nama, pesan) => {
+  const input = document.getElementById(nama);
+  document.querySelector('.err[data-for="' + nama + '"]').textContent = pesan;
+  if (pesan !== '') {
+    input.classList.add('invalid');
+  } else {
+    input.classList.remove('invalid');
+  }
+};
+
+// Mengecek input
+const cekField = (nama) => {
+  const nilai = document.getElementById(nama).value.trim();
+  let pesan = '';
+
+  if (nama === 'to' && nilai === '') {
+    pesan = 'Isi nama penerima.';
+  }
+  if (nama === 'title' && nilai === '') {
+    pesan = 'Isi judul lagu.';
+  }
+  if (nama === 'artist' && nilai === '') {
+    pesan = 'Isi nama artis.';
+  }
+  if (nama === 'message' && nilai.length < 10) {
+    pesan = 'Pesan minimal 10 karakter.';
+  }
+
+  tampilError(nama, pesan);
+  return pesan === '';
+};
+
+// Cek input saat pengguna selesai mengetik
+daftarField.forEach((nama) => {
+  document.getElementById(nama).addEventListener('blur', () => cekField(nama));
+});
+
+// Menghitung jumlah karakter pesan
+document.getElementById('message').addEventListener('input', (e) => {
+  document.querySelector('#counter').textContent = e.target.value.length + '/200';
+});
+
+// Saat form dikirim
+form.addEventListener('submit', (e) => {
+  e.preventDefault(); // cegah halaman reload
+
+  let valid = true;
+  for (const nama of daftarField) {
+    if (cekField(nama) === false) {
+      valid = false;
+    }
+  }
+  if (valid === false) {
+    toast('Lengkapi form dulu.');
+    return;
+  }
+
+  // Buat object lagu baru lalu masukkan ke array
+  const lagu = {
+    id: 'u' + Date.now(),
+    to: document.getElementById('to').value.trim(),
+    title: document.getElementById('title').value.trim(),
+    artist: document.getElementById('artist').value.trim(),
+    message: document.getElementById('message').value.trim(),
+    mood: document.getElementById('mood').value,
+    plays: 0,
+    createdAt: Date.now(),
+  };
+  songs.push(lagu);
+
+  // Kembalikan pencarian dan urutan ke awal agar lagu baru langsung terlihat
+  kataCari = '';
+  urutan = 'new';
+  document.querySelector('#search').value = '';
+  document.querySelector('#sort').value = 'new';
+
+  resetForm();
+  tampilkanHalaman('jelajah');
+  toast('Lagu berhasil dikirim.');
+});
+
+// Mengosongkan form
+const resetForm = () => {
+  form.reset();
+  for (const nama of daftarField) {
+    tampilError(nama, '');
+  }
+  document.querySelector('#counter').textContent = '0/200';
+};
